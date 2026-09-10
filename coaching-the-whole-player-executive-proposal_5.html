@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Wise Friend proposal for Tennis Australia: a mental fitness pilot for performance coaches.">
+<meta name="robots" content="noindex, nofollow">
+<title>Coaching the Whole Player: Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --paper:#FBF9F5;
+  --ink:#15191D;
+  --soft:rgba(21,25,29,.66);
+  --faint:rgba(21,25,29,.30);
+  --wash:rgba(21,25,29,.05);
+  --accent:#E24E30;
+  --sage:#5F7A62;
+  --mist:#E7ECF1;
+  --accent-wash:rgba(226,78,48,.08);
+  --inv-bg:#1D2B25;
+  --inv-fg:#F4F1EA;
+  --inv-soft:rgba(244,241,234,.68);
+  --inv-faint:rgba(244,241,234,.32);
+  --inv-wash:rgba(244,241,234,.09);
+
+  --t-xs:clamp(12px,.85vw,13.5px);
+  --t-sm:clamp(15px,1.08vw,17.5px);
+  --t-md:clamp(17.5px,1.4vw,23px);
+  --t-lg:clamp(21px,2vw,29px);
+  --h2:clamp(29px,3.9vw,56px);
+  --h1:clamp(36px,5.2vw,78px);
+  --mega:clamp(72px,13vw,180px);
+  --pad:clamp(28px,6vw,110px);
+}
+
+html,body{height:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Schibsted Grotesk',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+  font-weight:400;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  color-scheme:light;
+}
+
+/* ── SLIDES ── */
+.deck{position:relative;height:100vh;height:100dvh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  background:var(--paper);color:var(--ink);
+  padding:clamp(52px,8.5vh,90px) var(--pad) clamp(60px,9.5vh,98px);
+  display:flex;flex-direction:column;
+  justify-content:center;justify-content:safe center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .38s ease,visibility .38s;
+  overflow-y:auto;overscroll-behavior:contain;
+}
+.slide.on{opacity:1;visibility:visible;pointer-events:auto}
+.slide.inv{background:var(--inv-bg);color:var(--inv-fg);
+  --ink:var(--inv-fg);--soft:var(--inv-soft);--faint:var(--inv-faint);--wash:var(--inv-wash)}
+.wrap{width:100%;max-width:1240px;margin:0 auto}
+
+/* Staggered reveal: a slide arrives as beats, not a wall. */
+.r{opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.2,.7,.25,1),transform .5s cubic-bezier(.2,.7,.25,1)}
+.slide.on .r{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 90ms + 60ms)}
+@media (prefers-reduced-motion:reduce){
+  .slide{transition:opacity .01s,visibility .01s}
+  .r{transition:none;opacity:1;transform:none}
+  .slide.on .r{transition-delay:0s}
+}
+
+/* ── TYPE ── */
+.kicker{font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:clamp(16px,2.6vh,28px)}
+.kicker b{color:var(--accent);font-weight:600}
+
+h1{font-size:var(--h1);font-weight:500;line-height:1.03;letter-spacing:-.03em;text-wrap:balance}
+h2{font-size:var(--h2);font-weight:500;line-height:1.08;letter-spacing:-.026em;text-wrap:balance}
+h3{font-size:var(--t-lg);font-weight:600;line-height:1.22;letter-spacing:-.016em}
+em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.008em}
+h1 em,h2 em{color:var(--accent);font-size:1.03em}
+
+.say{font-size:var(--t-md);color:var(--soft);line-height:1.58;max-width:50ch;margin-top:clamp(14px,2.4vh,26px)}
+.say b{color:var(--ink);font-weight:600}
+.tight{max-width:36ch}
+
+.mega{font-family:'Instrument Serif',Georgia,serif;font-size:var(--mega);line-height:.86;letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums}
+.mega small{font-size:.34em;letter-spacing:-.02em}
+
+/* ── TOPOGRAPHY ── */
+.topo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.topo path{fill:none;stroke:var(--sage);stroke-width:1.1;opacity:.3}
+.slide.inv .topo path{opacity:.48}
+.slide > .wrap{position:relative;z-index:1}
+
+/* ── CHROME ── */
+.bar{position:fixed;left:0;bottom:0;height:2px;background:var(--accent);width:0;transition:width .38s ease;z-index:60}
+.meta{position:fixed;bottom:clamp(16px,3vh,30px);left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;align-items:baseline;z-index:50;pointer-events:none;
+  font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);mix-blend-mode:difference;filter:invert(1) grayscale(1) contrast(3)}
+.meta b{font-weight:600;font-variant-numeric:tabular-nums}
+.hint{position:fixed;bottom:clamp(16px,3vh,30px);left:50%;transform:translateX(-50%);z-index:50;pointer-events:none;
+  font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);opacity:1;transition:opacity .6s}
+.hint.gone{opacity:0}
+
+/* ── LAYOUT HELPERS ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:center}
+.split.wide{grid-template-columns:1.1fr .9fr}
+.split.narrow{grid-template-columns:.82fr 1.18fr}
+.rows{display:flex;flex-direction:column;gap:clamp(18px,3.2vh,36px)}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,4vw,58px)}
+
+.point h3{margin-bottom:8px}
+.point p{font-size:var(--t-sm);color:var(--soft);line-height:1.55}
+.point .no{font-family:'Instrument Serif',Georgia,serif;font-size:var(--t-lg);color:var(--accent);display:block;margin-bottom:9px;line-height:1}
+
+/* ── VITAL FEW (2x2 grid of labelled items) ── */
+.few{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(16px,2.6vh,26px) clamp(28px,4vw,60px)}
+.few .it h3{font-size:var(--t-md);margin-bottom:5px}
+.few .it p{font-size:var(--t-sm);color:var(--soft);line-height:1.5}
+.few .it span{font-family:'Instrument Serif',Georgia,serif;color:var(--accent);font-size:var(--t-lg);
+  line-height:1;display:block;margin-bottom:8px}
+@media(max-width:900px){.few{grid-template-columns:1fr}}
+
+/* ── QUAD ── */
+.quad{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,40px)}
+@media(max-width:900px){.quad{grid-template-columns:repeat(2,1fr)}}
+
+/* ── PHASE PACKAGES ── */
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.5vw,20px);
+  margin-top:clamp(16px,2.4vh,28px);align-items:stretch}
+.pack{background:var(--wash);border-radius:8px;padding:clamp(14px,2vh,20px) clamp(13px,1.5vw,18px);
+  display:flex;flex-direction:column}
+.pack.one{background:var(--accent-wash)}
+.pk{font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.pack.one .pk{color:var(--accent)}
+.pack h3{font-size:var(--t-lg);margin:8px 0 3px}
+.pack .pw{font-size:var(--t-xs);letter-spacing:.11em;text-transform:uppercase;color:var(--faint);
+  margin-bottom:clamp(10px,1.6vh,14px);font-weight:600}
+.pack p.pd{font-size:var(--t-sm);color:var(--soft);line-height:1.5;margin-top:auto;padding-top:10px}
+@media(max-width:900px){.packs{grid-template-columns:1fr}}
+
+/* ── PACK DETAIL: tiles, decided-together, walk-away line ── */
+.ptiles{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:clamp(9px,1.4vh,13px) 0}
+.ptiles span{display:flex;align-items:center;font-size:var(--t-xs);letter-spacing:0;text-transform:none;
+  line-height:1.3;color:var(--ink);background:var(--paper);border-radius:6px;padding:8px 10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.ptiles span.soft{background:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);color:var(--soft)}
+.maybe{margin:clamp(7px,1.1vh,10px) 0 0}
+.mlab{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.maybe .ptiles{margin-top:5px}
+.pmeta{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 10px;margin-top:6px}
+.pmeta.top{margin-top:6px;padding-top:0}
+.pmeta b{font-size:var(--t-sm);font-weight:600;color:var(--ink)}
+.pmeta span{font-size:var(--t-xs);letter-spacing:0;text-transform:none;color:var(--soft)}
+.pout{margin-top:auto;padding-top:clamp(9px,1.4vh,13px);font-size:clamp(11.5px,0.86vw,13.5px);color:var(--ink);line-height:1.4}
+.pout span{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:4px;font-weight:600}
+.pack.one .pout span{color:var(--accent)}
+
+/* ── OFFERING CARDS ── */
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,22px);
+  margin-top:clamp(16px,2.4vh,28px)}
+.ohd{font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  font-weight:600;margin-bottom:clamp(10px,1.6vh,14px)}
+.ocol.lead .ohd{color:var(--accent)}
+.ocol{display:grid;grid-template-rows:auto repeat(4,1fr);gap:7px;align-content:start}
+.ocard{display:flex;align-items:center;background:var(--wash);border-radius:7px;
+  padding:clamp(10px,1.5vh,15px) clamp(12px,1.2vw,16px)}
+.ocol.lead .ocard{background:var(--accent-wash)}
+.ocard b{font-size:var(--t-sm);font-weight:600;color:var(--ink);line-height:1.3}
+@media(max-width:900px){.offers{grid-template-columns:1fr}}
+
+/* ── ORG PILLS (trusted by) ── */
+.orgs{display:flex;flex-wrap:wrap;gap:6px;margin:clamp(8px,1.3vh,12px) 0 0}
+.orgs span{font-size:var(--t-sm);color:var(--ink);background:var(--wash);border-radius:99px;padding:6px 14px}
+
+/* ── EVALUATION TABLE, 3-COLUMN VARIANT ── */
+.etable.c3{grid-template-columns:1.5fr 1.7fr .8fr}
+
+/* ── CHECKLISTS ── */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vh,16px) clamp(28px,5vw,64px)}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.6vh,16px) clamp(22px,4vw,50px);align-items:start}
+.chk{display:grid;grid-template-columns:auto 1fr;gap:4px 11px;align-items:start;
+  font-size:var(--t-sm);color:var(--soft);line-height:1.48;padding:5px 0}
+.chk i{width:17px;height:17px;border-radius:5px;margin-top:2px;position:relative;grid-row:auto}
+.chk.done i{background:var(--accent)}
+.chk.done i::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.chk.open i{box-shadow:inset 0 0 0 1.5px var(--faint)}
+.chk span{grid-column:2;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--soft);line-height:inherit}
+.chk b{font-weight:600;color:var(--ink)}
+.chk.ask{font-size:clamp(14.5px,1.15vw,18px);line-height:1.5}
+.chk.ask i{width:20px;height:20px;border-radius:6px;grid-row:auto}
+.chk.ask b{font-size:inherit;font-weight:600;color:var(--ink)}
+.chk.ask span{grid-column:2;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--soft);line-height:inherit}
+@media(max-width:900px){.cols2,.cols3{grid-template-columns:1fr}}
+.beyond{display:flex;align-items:baseline;gap:clamp(12px,2vw,28px);flex-wrap:wrap;
+  margin-top:clamp(20px,3.2vh,36px);padding-top:clamp(14px,2.2vh,22px);border-top:1px solid var(--faint)}
+.beyond p{font-size:var(--t-sm);color:var(--ink);line-height:1.5;flex:1;min-width:260px}
+@keyframes halo{0%{opacity:.5;transform:scale(1)}70%{opacity:0;transform:scale(2.5)}100%{opacity:0;transform:scale(2.5)}}
+
+/* ── PEOPLE PANELS (reused from why-us style) ── */
+.pgrp{font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  font-weight:600;margin-top:clamp(14px,2.4vh,24px)}
+.whos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(6px,1vh,10px) clamp(16px,2.4vw,30px);
+  margin:clamp(8px,1.2vh,12px) 0 0}
+.whos b{display:block;font-size:var(--t-sm);font-weight:600;color:var(--ink);line-height:1.28}
+.whos i{display:block;font-style:normal;font-size:var(--t-xs);letter-spacing:0;text-transform:none;
+  color:var(--soft);line-height:1.42}
+@media(max-width:900px){.whos{grid-template-columns:1fr}}
+
+/* date labels on a step */
+.node .dt{font-size:var(--t-xs);letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:4px;font-weight:600}
+
+/* ── DIAGRAMS ── */
+.viz{width:100%;height:auto;display:block;overflow:visible}
+.viz text{font-family:'Schibsted Grotesk',sans-serif;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;fill:var(--faint)}
+.viz .lab{font-size:13px;letter-spacing:.02em;text-transform:none;fill:var(--soft)}
+/* Two tracks: what the body gets, what the mind gets. The emptiness is the point. */
+.track line{stroke:var(--wash);stroke-width:2;stroke-linecap:round}
+.track circle{fill:var(--ink)}
+.track .hollow{fill:none;stroke:var(--accent);stroke-width:2}
+.track .far{fill:var(--faint)}
+
+/* Bars */
+.bars{display:flex;flex-direction:column;gap:clamp(14px,2.4vh,24px)}
+.bmeta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.bname{font-size:var(--t-sm);color:var(--soft)}
+.bval{font-family:'Instrument Serif',Georgia,serif;font-size:var(--t-lg);color:var(--ink);font-variant-numeric:tabular-nums}
+.btrack{height:6px;background:var(--wash);border-radius:99px;overflow:hidden}
+.bfill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width 1s cubic-bezier(.2,.7,.25,1)}
+.slide.on .bfill{width:var(--w);transition-delay:calc(var(--i,0) * 110ms + 300ms)}
+
+/* Process track / timeline */
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(12px,1.6vw,22px);position:relative;margin-top:clamp(24px,4vh,44px)}
+.flow.n5{grid-template-columns:repeat(5,1fr)}
+.flow.n3{grid-template-columns:repeat(3,1fr)}
+.flow::before{content:"";position:absolute;top:5px;left:5%;right:5%;height:2px;background:var(--wash)}
+.flow::after{content:"";position:absolute;top:5px;left:5%;width:0;height:2px;background:var(--accent);transition:width 1.3s cubic-bezier(.3,.7,.3,1)}
+.slide.on .flow::after{width:90%;transition-delay:.4s}
+.node{position:relative;padding-top:26px}
+.node::before{content:"";position:absolute;top:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 2px var(--faint);transition:box-shadow .4s}
+.slide.on .node::before{box-shadow:0 0 0 2px var(--accent);transition-delay:calc(var(--i,0) * 200ms + .4s)}
+.node h3{font-size:var(--t-md);margin-bottom:6px}
+.node p{font-size:var(--t-sm);letter-spacing:.005em;text-transform:none;color:var(--soft);line-height:1.48}
+.node > span{font-size:var(--t-xs);letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-weight:600}
+@media(max-width:900px){.flow,.flow.n5,.flow.n3{grid-template-columns:repeat(2,1fr);gap:20px}.flow::before,.flow::after{display:none}}
+
+/* Quote */
+.quote{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(24px,3.8vw,52px);line-height:1.16;letter-spacing:-.02em;max-width:26ch}
+.attrib{font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:clamp(16px,2.6vh,28px)}
+
+.notes{font-size:var(--t-sm);color:var(--soft);line-height:1.65;max-width:74ch;columns:2;column-gap:clamp(32px,5vw,64px)}
+.notes p{break-inside:avoid;margin-bottom:12px}
+
+/* ── PLACEHOLDER TAG ── */
+.ph{display:inline;background:var(--accent-wash);color:var(--accent);font-weight:600;font-style:normal;
+  font-size:.86em;padding:1px 8px;border-radius:5px;white-space:normal}
+.plabel{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;
+  background:var(--accent-wash);display:inline-block;padding:3px 9px;border-radius:5px;margin-bottom:10px}
+
+/* ── ALIGNMENT TABLE (client context) ── */
+.align{display:grid;grid-template-columns:1.05fr 1.15fr 1.2fr;gap:1px;background:var(--faint);
+  border-radius:9px;overflow:hidden;margin-top:clamp(18px,2.8vh,28px)}
+.align.c2{grid-template-columns:1fr 1.2fr}
+.align > div{background:var(--paper);padding:clamp(11px,1.6vh,15px) clamp(13px,1.5vw,17px)}
+.align .hd{font-size:var(--t-xs);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;background:var(--wash)}
+.align .cell{font-size:var(--t-sm);color:var(--ink);line-height:1.42}
+.align .cell.q{color:var(--soft)}
+@media(max-width:900px){.align{grid-template-columns:1fr;grid-auto-flow:row}}
+
+/* ── SCENARIO CARDS ── */
+.scen{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,26px);margin-top:clamp(18px,2.8vh,30px)}
+.scard{background:var(--wash);border-radius:10px;padding:clamp(16px,2.2vh,22px) clamp(14px,1.6vw,19px);
+  display:flex;flex-direction:column;gap:12px}
+.scard .sit{font-size:var(--t-md);font-weight:600;color:var(--ink);line-height:1.32}
+.scard .cap2{font-size:var(--t-sm);color:var(--soft);line-height:1.48;padding-top:10px;border-top:1px solid var(--faint)}
+.scard .cap2 b{color:var(--accent);display:block;font-size:var(--t-xs);letter-spacing:.09em;
+  text-transform:uppercase;margin-bottom:5px;font-weight:700}
+@media(max-width:900px){.scen{grid-template-columns:1fr}}
+
+/* ── TOOL EXAMPLE CARD ── */
+.toolcard{background:var(--wash);border-radius:10px;padding:clamp(18px,2.4vh,26px) clamp(18px,2vw,26px)}
+.toolcard .tq{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(19px,2.1vw,27px);line-height:1.34;color:var(--ink)}
+.toolcard .tsub{font-size:var(--t-xs);color:var(--faint);margin-top:14px;letter-spacing:.03em}
+
+/* ── RESPONSIBILITY COLUMNS (no ranking) ── */
+.resp3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:clamp(18px,2.8vh,30px)}
+.rcol{background:var(--wash);border-radius:10px;padding:clamp(14px,2vh,18px) clamp(13px,1.5vw,17px)}
+.rcol .rh{font-size:var(--t-xs);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;margin-bottom:12px;line-height:1.4}
+.rcol ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.rcol li{font-size:var(--t-sm);color:var(--ink);line-height:1.4;padding-left:14px;position:relative}
+.rcol li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.rcol .orgs{margin-top:2px}
+.rcol .orgs span{background:var(--paper)}
+@media(max-width:900px){.resp3{grid-template-columns:1fr}}
+
+/* ── EVIDENCE BREAKDOWN ── */
+.evid{display:flex;flex-direction:column;margin-top:clamp(16px,2.4vh,24px);border-top:1px solid var(--faint)}
+.evid .erow{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:baseline;
+  padding:clamp(9px,1.4vh,12px) 0;border-bottom:1px solid var(--faint)}
+.evid .el{font-size:var(--t-xs);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.evid .ev{font-size:var(--t-sm);color:var(--ink);line-height:1.5}
+@media(max-width:900px){.evid .erow{grid-template-columns:1fr;gap:4px}}
+
+/* ── GENERIC 4-COL DATA TABLE (evaluation) ── */
+.etable{display:grid;grid-template-columns:1.35fr 1.35fr .95fr .8fr;gap:1px;background:var(--faint);
+  border-radius:9px;overflow:hidden;margin-top:clamp(16px,2.6vh,26px)}
+.etable > div{background:var(--paper);padding:clamp(9px,1.3vh,13px) clamp(11px,1.3vw,15px);
+  font-size:var(--t-sm);color:var(--ink);line-height:1.38}
+.etable .hd{background:var(--wash);font-size:var(--t-xs);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--faint);font-weight:700}
+@media(max-width:900px){.etable{grid-template-columns:1fr;grid-auto-flow:row}}
+
+/* ── INVESTMENT TABLE ── */
+.itable{display:flex;flex-direction:column;margin-top:clamp(16px,2.6vh,26px);border-top:1px solid var(--faint)}
+.irow{display:grid;grid-template-columns:230px 1fr;gap:20px;padding:clamp(11px,1.7vh,15px) 0;
+  border-bottom:1px solid var(--faint);align-items:baseline}
+.irow .il{font-size:var(--t-sm);font-weight:600;color:var(--ink)}
+.irow .iv{font-size:var(--t-sm);color:var(--soft);line-height:1.48}
+@media(max-width:900px){.irow{grid-template-columns:1fr;gap:4px}}
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px){
+  .split,.split.wide,.split.narrow,.trio{grid-template-columns:1fr;gap:clamp(24px,4vh,38px)}
+  .notes{columns:1}
+  .slide{justify-content:flex-start}
+  .meta{font-size:10px}
+}
+
+@media print{
+  @page{size:A4 landscape;margin:11mm}
+  body{overflow:visible;background:#fff}
+  .meta,.bar,.hint{display:none!important}
+  .deck{height:auto;overflow:visible}
+  .slide{position:static;opacity:1!important;visibility:visible!important;height:auto;min-height:0;
+    padding:0 0 12mm;break-after:page;page-break-after:always;display:block}
+  .slide:last-child{break-after:auto}
+  .r{opacity:1!important;transform:none!important}
+  .bfill{width:var(--w)!important}
+}
+</style>
+</head>
+<body>
+
+<main class="deck" id="deck">
+
+<section class="slide on" aria-label="Cover">
+  <svg class="topo" data-topo aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1200 800"></svg>
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Wise Friend &nbsp;&middot;&nbsp; proposal for Tennis Australia</div>
+    <h1 class="r" style="--i:1">Coaching the whole player.</h1>
+    <p class="say r" style="--i:2;max-width:none">A proposed mental fitness pilot for Tennis Australia&rsquo;s performance coaches.</p>
+    <p class="say r" style="--i:3;font-size:var(--t-sm);margin-top:clamp(20px,3vh,30px)">Prepared by Wise Friend &nbsp;&middot;&nbsp; September 2026 &nbsp;&middot;&nbsp; For discussion</p>
+  </div>
+</section>
+
+<section class="slide inv" aria-label="Opening question">
+  <div class="wrap">
+    <h1 class="r" style="--i:0">In your perspective, what percentage<br>of tennis is <em>mental?</em></h1>
+  </div>
+</section>
+
+<section class="slide" aria-label="The follow up question">
+  <div class="wrap">
+    <h1 class="r" style="--i:0">Do you spend that percentage<br>of training time <em>on it?</em></h1>
+  </div>
+</section>
+
+<section class="slide" aria-label="The field has already moved">
+  <div class="wrap split narrow">
+    <div>
+      <div class="mega r" style="--i:0">2.3<small> yrs</small></div>
+      <p class="say r tight" style="--i:1"><b>Longer careers</b> for professional baseball players who worked with a mental skills coach, and <b>1.2 levels higher</b> in the game. Across 194 players.</p>
+      <p class="r" style="--i:3;font-size:var(--t-xs);letter-spacing:.11em;text-transform:uppercase;color:var(--faint);margin-top:clamp(14px,2vh,22px)">Christopher Hayes &middot; Harvard Extension School &middot; 2019</p>
+    </div>
+    <div class="r" style="--i:3;border-left:1.5px solid var(--faint);padding-left:clamp(28px,4.5vw,64px)">
+      <p class="say" style="max-width:40ch;margin-top:0">Professional leagues and Olympic programmes are building dedicated mental performance staff into their structures.</p>
+      <p class="say" style="max-width:40ch"><b>The question is no longer whether.</b> It is who does it, and how deep it goes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="The gap">
+  <div class="wrap rows">
+    <h2 class="r" style="--i:0">Every other part of an athlete<br>has someone trained for it.</h2>
+    <div class="r" style="--i:1">
+      <svg class="viz track" viewBox="0 0 900 210" role="img" aria-label="The body has five specialists spread across a track. The mind has a coach at one end and clinical care at the far end, with nothing in between.">
+        <text x="0" y="14">The body</text>
+        <line x1="0" y1="56" x2="860" y2="56"/>
+        <circle cx="60"  cy="56" r="7"/><text class="lab" x="60"  y="86" text-anchor="middle">Physio</text>
+        <circle cx="250" cy="56" r="7"/><text class="lab" x="250" y="86" text-anchor="middle">Strength</text>
+        <circle cx="440" cy="56" r="7"/><text class="lab" x="440" y="86" text-anchor="middle">Nutrition</text>
+        <circle cx="630" cy="56" r="7"/><text class="lab" x="630" y="86" text-anchor="middle">Medical</text>
+        <circle cx="820" cy="56" r="7"/><text class="lab" x="820" y="86" text-anchor="middle">Wearable</text>
+        <text x="0" y="146">The mind</text>
+        <line x1="0" y1="186" x2="860" y2="186"/>
+        <circle class="hollow" cx="60" cy="186" r="7"/><text class="lab" x="60" y="176" text-anchor="middle" style="fill:var(--accent)">Coach</text>
+        <circle class="far" cx="820" cy="186" r="7"/><text class="lab" x="820" y="176" text-anchor="middle">Psychologist</text>
+      </svg>
+    </div>
+    <p class="say r" style="--i:2">Everyone runs into something at some point. For everything above the neck there is the coach, and a referral list. <b>Nothing in between.</b></p>
+  </div>
+</section>
+
+<section class="slide" aria-label="Executive recommendation">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Executive recommendation</div>
+    <h2 class="r" style="--i:1">We recommend a phased rollout,<br>beginning with a pilot, <em>built to prove value early.</em></h2>
+    <p class="say r" style="--i:2">A focused first phase, sized to sit inside the high-performance course Tennis Australia already runs. Two further phases follow, with learnings applied throughout.</p>
+    <div class="flow n3 r" style="--i:3;margin-top:clamp(28px,4.2vh,46px)">
+      <div class="node" style="--i:0"><h3>Pilot</h3><p>A small, agreed cohort tests the approach against real coaching moments.</p></div>
+      <div class="node" style="--i:1"><h3>Depth</h3><p>Go deeper and wider as we continue, building on what phase one reveals.</p></div>
+      <div class="node" style="--i:2"><h3>Scale</h3><p>Adjust the scale to fit Tennis Australia&rsquo;s needs as we continue.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="One-slide proposal summary">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Overview</div>
+    <h2 class="r" style="--i:1">The proposal, in full.</h2>
+    <div class="few r" style="--i:2;margin-top:clamp(22px,3.4vh,36px)">
+      <div class="it">
+        <span>01</span>
+        <h3>Purpose</h3>
+        <p>Strengthen the mental-fitness element already inside Tennis Australia&rsquo;s coach development pathway.</p>
+      </div>
+      <div class="it">
+        <span>02</span>
+        <h3>Participants</h3>
+        <p>A cohort of 10&ndash;15, as the first of three phases. Composition to be agreed with Tennis Australia.</p>
+      </div>
+      <div class="it">
+        <span>03</span>
+        <h3>Approach</h3>
+        <p>Customise the program to Tennis Australia&rsquo;s curriculum, test it with the cohort, then apply what we learn to phases two and three.</p>
+      </div>
+      <div class="it">
+        <span>04</span>
+        <h3>Decision requested now</h3>
+        <p>Approve the phased approach, and agree a working session to finalise scope and timing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Client context and integration">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Client context &amp; integration</div>
+    <h2 class="r" style="--i:1">The pilot would fit inside what<br>Tennis Australia <em>already runs.</em></h2>
+    <div class="align c2 r" style="--i:2;margin-top:clamp(16px,2.4vh,24px)">
+      <div class="cell hd">Tennis Australia foundation</div>
+      <div class="cell hd">Proposed Wise Friend contribution</div>
+
+      <div class="cell">Sustainable performance and coach development</div>
+      <div class="cell">Structured reflection and repeatable routines</div>
+
+      <div class="cell">Player Development Matrix</div>
+      <div class="cell">Selected Life Plan exercises connected to player goals</div>
+
+      <div class="cell">Relationships and player wellbeing</div>
+      <div class="cell">Rehearsal of supportive conversations and appropriate handover</div>
+    </div>
+    <div class="resp3 r" style="--i:3;margin-top:clamp(14px,2.2vh,20px)">
+      <div class="rcol">
+        <div class="rh">Existing Tennis Australia education</div>
+        <div class="orgs"><span>High-performance course</span><span>Player Development Matrix</span><span>Coach development framework</span></div>
+      </div>
+      <div class="rcol">
+        <div class="rh">Wise Friend practice &amp; facilitation</div>
+        <div class="orgs"><span>Structured reflection exercises</span><span>Facilitated practice sessions</span><span>Selected Life Plan tools</span></div>
+      </div>
+      <div class="rcol">
+        <div class="rh">Existing specialist support &amp; referral</div>
+        <div class="orgs"><span>Sports psychologists</span><span>Clinical / medical referral</span><span>Existing escalation protocols</span></div>
+      </div>
+    </div>
+    <p class="say r" style="--i:4;font-size:var(--t-sm);margin-top:clamp(14px,2.2vh,20px)">Beyond this alignment, Wise Friend also offers a deeper partnership in mental and emotional fitness, alongside what Tennis Australia already provides.</p>
+  </div>
+</section>
+
+<section class="slide" aria-label="Practical need and scenarios">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Practical need</div>
+    <h2 class="r" style="--i:1">The pilot would focus on moments<br>coaches encounter <em>every week.</em> Examples below.</h2>
+    <div class="scen r" style="--i:2;margin-top:clamp(22px,3.4vh,36px)">
+      <div class="scard">
+        <div class="sit">A coach helps someone reset after a difficult loss.</div>
+        <div class="cap2"><b>Capability to practise</b>A short reset routine a coach can prompt in the moment, rehearsed before it&rsquo;s needed.</div>
+      </div>
+      <div class="scard">
+        <div class="sit">A coach navigates a difficult conversation with someone they coach, or a parent.</div>
+        <div class="cap2"><b>Capability to practise</b>Rehearsing the conversation ahead of time, rather than improvising inside it.</div>
+      </div>
+      <div class="scard">
+        <div class="sit">A coach recognises that a concern needs specialist support.</div>
+        <div class="cap2"><b>Capability to practise</b>A clear, appropriate handover into Tennis Australia&rsquo;s existing referral pathway.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Method: practising before applying">
+  <div class="wrap split wide" style="align-items:center">
+    <div>
+      <div class="kicker r" style="--i:0">Method</div>
+      <h2 class="r" style="--i:1">Coaches practise the tools<br>before applying them <em>with players.</em></h2>
+      <p class="say r" style="--i:2;font-size:var(--t-sm)">The full ten-pillar framework is in the appendix.</p>
+    </div>
+    <div class="r" style="--i:3">
+      <div class="flow n3" style="margin-top:0">
+        <div class="node" style="--i:0"><h3>Experience</h3><p>Coaches try the exercise themselves first, as a participant.</p></div>
+        <div class="node" style="--i:1"><h3>Rehearse</h3><p>They practise using it inside a tennis-specific scenario.</p></div>
+        <div class="node" style="--i:2"><h3>Review</h3><p>They discuss how, and whether, it fits their own coaching.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap r" style="--i:4;margin-top:clamp(22px,3.4vh,34px)">
+    <div class="toolcard">
+      <div class="plabel">Illustrative example</div>
+      <div class="tq">&ldquo;Name one moment this week where you paused before reacting. How did that impact your performance?&rdquo;</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Evidence: the INTENNSE case study">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Evidence</div>
+    <h2 class="r" style="--i:1">A tennis case study.</h2>
+    <p class="say r" style="--i:2">INTENNSE professional tennis league: 10 coaches, 10 teams, 80 players.</p>
+    <div class="split" style="margin-top:clamp(20px,3vh,32px);align-items:start;gap:clamp(28px,4.5vw,64px)">
+      <div class="bars">
+        <div><div class="bmeta"><span class="bname">New pressure-management tool</span><span class="bval">88.6%</span></div><div class="btrack"><div class="bfill" style="--w:88.6%;--i:0"></div></div></div>
+        <div><div class="bmeta"><span class="bname">New ways to support a teammate</span><span class="bval">84.1%</span></div><div class="btrack"><div class="bfill" style="--w:84.1%;--i:1"></div></div></div>
+      </div>
+      <p class="say" style="margin-top:0">Participants reported benefits in both pressure management and supporting others.</p>
+    </div>
+    <div class="r" style="--i:3;margin-top:clamp(18px,2.6vh,28px);padding-top:clamp(16px,2.4vh,24px);border-top:1px solid var(--faint)">
+      <p class="quote" style="font-size:clamp(18px,2.2vw,26px);max-width:60ch">&ldquo;I was going to quit playing this year and start coaching. It gave me new hope and confidence I will carry forever.&rdquo;</p>
+      <div class="attrib">A player, after one season</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Pilot scope">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Pilot scope</div>
+    <h2 class="r" style="--i:1">The first phase would produce a<br>tested recommendation for next steps.</h2>
+    <div class="cols2 r" style="--i:2;margin-top:clamp(18px,2.8vh,30px)">
+      <div>
+        <div class="chk done"><i></i><span>A map of existing provision and agreed application opportunities</span></div>
+        <div class="chk done"><i></i><span>A selected set of tennis-relevant exercises</span></div>
+      </div>
+      <div>
+        <div class="chk done"><i></i><span>Facilitated practice with the agreed cohort</span></div>
+        <div class="chk done"><i></i><span>An evaluation report and recommendation</span></div>
+      </div>
+    </div>
+    <p class="say r" style="--i:3;font-size:var(--t-sm)">Proposed cohort: 6 executive-team sponsors plus 4 participating coaches, which accounts for 10 of the proposed 10&ndash;15.</p>
+  </div>
+</section>
+
+<section class="slide" aria-label="Delivery timeline">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Delivery</div>
+    <h2 class="r" style="--i:1">A staged schedule would guide<br>the <em>co-design process.</em></h2>
+    <div class="flow n5 r" style="--i:2">
+      <div class="node" style="--i:0"><div class="dt">October 2026</div><h3>Survey out</h3><p>Identifying key pain points to customise content.</p></div>
+      <div class="node" style="--i:1"><div class="dt">Mid-October 2026</div><h3>Cohort confirmed</h3><p>10&ndash;15 names, locked.</p></div>
+      <div class="node" style="--i:2"><div class="dt">January 2027</div><h3>Australian Open</h3><p>A live showcase as the kickoff.</p></div>
+      <div class="node" style="--i:3"><div class="dt">January&ndash;June 2027</div><h3>Co-design cohort</h3><p>Run by Ryan and Clayton, grounded in the Life Plan system.</p></div>
+      <div class="node" style="--i:4"><div class="dt">June 2027</div><h3>Feedback session</h3><p>Ambassadors decide the next phase of design.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Evaluation">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Evaluation</div>
+    <h2 class="r" style="--i:1">The pilot would assess application<br>and readiness for <em>wider use.</em></h2>
+    <div class="etable c3 r" style="--i:2">
+      <div class="hd">Question</div><div class="hd">Evidence</div><div class="hd">Timing</div>
+      <div>Do participants engage?</div><div>Attendance and completion records</div><div>Throughout</div>
+      <div>Can coaches apply the tools?</div><div>Baseline and end-of-pilot scenario assessment</div><div>Start &amp; end</div>
+      <div>Do tools fit everyday practice?</div><div>Brief usage records and structured feedback</div><div>Mid-point &amp; end</div>
+      <div>Do coaches understand boundaries?</div><div>Assessment of appropriate handover in scenarios</div><div>End</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Delivery team and boundaries">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Delivery team &amp; boundaries</div>
+    <h2 class="r" style="--i:1">Named leads, deep expertise,<br>and a trusted <em>track record.</em></h2>
+
+    <div class="quad r" style="--i:2;margin-top:clamp(16px,2.4vh,26px)">
+      <div><div class="mega" style="font-size:clamp(32px,3.6vw,52px)">10,000<small>+</small></div><p class="say" style="margin-top:4px;font-size:var(--t-xs)">young people</p></div>
+      <div><div class="mega" style="font-size:clamp(32px,3.6vw,52px)">22</div><p class="say" style="margin-top:4px;font-size:var(--t-xs)">cities</p></div>
+      <div><div class="mega" style="font-size:clamp(32px,3.6vw,52px)">160,000</div><p class="say" style="margin-top:4px;font-size:var(--t-xs)">reached in person</p></div>
+      <div><div class="mega" style="font-size:clamp(32px,3.6vw,52px)">2,000<small>+</small></div><p class="say" style="margin-top:4px;font-size:var(--t-xs)">executives</p></div>
+    </div>
+    <p class="say r" style="--i:2;font-size:var(--t-xs);margin-top:8px">Inspiring Children Foundation, across 25 years.</p>
+
+    <div class="r" style="--i:3;border-top:1.5px solid var(--faint);margin-top:clamp(16px,2.4vh,24px)"></div>
+
+    <div class="split" style="margin-top:clamp(16px,2.4vh,24px);align-items:start;gap:clamp(28px,4.5vw,64px)">
+      <div class="r" style="--i:3">
+        <div class="pgrp" style="margin-top:0">Trusted by</div>
+        <div class="orgs">
+          <span>Inspiring Children Foundation</span><span>INTENNSE Pro Tennis</span><span>USTA</span>
+          <span>Hudson&rsquo;s Bay Company</span><span>Kroger</span><span>Zappos</span>
+          <span>Saks Fifth Avenue</span><span>Big League Wiffle</span><span>Montgomery County Schools</span>
+        </div>
+      </div>
+      <div class="r" style="--i:4;background:var(--wash);border-radius:10px;padding:clamp(14px,2vh,18px) clamp(14px,1.8vw,20px)">
+        <div class="pgrp" style="margin-top:0">Delivery team</div>
+        <div class="whos">
+          <div><b>Ryan Wolfington</b><i>Facilitation lead</i></div>
+          <div><b>Clayton Alenik</b><i>Program design lead</i></div>
+        </div>
+        <div class="pgrp" style="margin-top:clamp(10px,1.4vh,14px)">Advisers</div>
+        <div class="whos">
+          <div><b>Dr Blaise Aguirre</b><i>Harvard McLean Psychiatry</i></div>
+          <div><b>Dr Andrew Freeman</b><i>Former Nevada Health and Human Services</i></div>
+          <div><b>Dr Tasha Rasolkhani-Kalhorn</b><i>Former intensive outpatient director</i></div>
+          <div><b>Aphrah Brokaw</b><i>Partnerships lead</i></div>
+          <div><b>Tim Blenkiron</b><i>Professional tennis coach</i></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="say r" style="--i:5;font-size:var(--t-xs);max-width:none;margin-top:clamp(12px,1.8vh,18px)">Educational and non-clinical: coaches are trained to recognise concerns and hand over through Tennis Australia&rsquo;s existing referral pathway. Digital features from earlier materials, including player scoring, an extension to players aged 14+, and language monitoring, are not part of this coach pilot.</p>
+  </div>
+</section>
+
+<section class="slide" aria-label="The full offering">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">The full offering</div>
+    <h2 class="r" style="--i:1">Product offerings, <em>built to fit your needs.</em></h2>
+    <p class="say r" style="--i:2">Go wide for coverage across the network, or go deep with a smaller group, depending on your strategy.</p>
+
+    <div class="offers">
+      <div class="ocol lead">
+        <div class="ohd r" style="--i:3">Core Content / Approach</div>
+        <div class="ocard r" style="--i:3"><b>45-Minute Community Entry Standard</b></div>
+        <div class="ocard r" style="--i:4"><b>10 Pillars of Healing, Growth and High Performance</b></div>
+        <div class="ocard r" style="--i:4"><b>Peer Support Certification</b></div>
+        <div class="ocard r" style="--i:5"><b>Teach It</b></div>
+      </div>
+
+      <div class="ocol">
+        <div class="ohd r" style="--i:3">Tools</div>
+        <div class="ocard r" style="--i:4"><b>The Life Plan</b></div>
+        <div class="ocard r" style="--i:4"><b>Inspire Reflection Cards</b></div>
+        <div class="ocard r" style="--i:5"><b>Daily Scores and Goals</b></div>
+        <div class="ocard r" style="--i:5"><b>The Coach&rsquo;s Weekly Brief</b></div>
+      </div>
+
+      <div class="ocol">
+        <div class="ohd r" style="--i:3">Time Together</div>
+        <div class="ocard r" style="--i:4"><b>On-site kick-off</b></div>
+        <div class="ocard r" style="--i:5"><b>Weekly calls</b></div>
+        <div class="ocard r" style="--i:5"><b>Mentorship cohorts</b></div>
+        <div class="ocard r" style="--i:6"><b>Custom tracks</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="Future pathway">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">Future pathway</div>
+    <h2 class="r" style="--i:1">Phases two and three adapt<br>to what <em>phase one reveals.</em></h2>
+    <div class="flow n3 r" style="--i:2;margin-top:clamp(12px,1.8vh,18px)">
+      <div class="node" style="--i:0"><span>Pilot</span></div>
+      <div class="node" style="--i:1"><span>Depth</span></div>
+      <div class="node" style="--i:2"><span>Scale</span></div>
+    </div>
+    <div class="packs r" style="--i:3;margin-top:clamp(10px,1.6vh,18px)">
+      <div class="pack one">
+        <div class="pk">Phase one</div>
+        <h3>Pilot</h3>
+        <div class="pmeta top"><b>10 to 15 people</b><span>About 2 hours a month</span></div>
+        <div class="pw">Oct 2026 &ndash; Jun 2027</div>
+        <div class="ptiles">
+          <span>The Life Plan</span><span>Inspire Cards</span>
+          <span>Baseline training</span><span>Australian Open showcase</span>
+        </div>
+        <div class="maybe">
+          <div class="mlab">Decided together</div>
+          <div class="ptiles">
+            <span class="soft">Peer support training</span><span class="soft">Additional modules</span>
+          </div>
+        </div>
+        <div class="pout"><span>What you walk away with</span>A pilot co-designed to fit you, and ambassadors ready for phase two.</div>
+      </div>
+
+      <div class="pack">
+        <div class="pk">Phase two</div>
+        <h3>Depth</h3>
+        <div class="pmeta top"><b>Wider coach cohort</b><span>About 2 to 4 hours a month</span></div>
+        <div class="pw">Following phase one</div>
+        <div class="ptiles">
+          <span>Mental fitness modules</span><span>Emotional fitness modules</span>
+          <span>Role-play scenarios</span><span>Digital platform</span>
+          <span>Daily scores and goals</span><span>Coach-wide baseline</span>
+        </div>
+        <div class="pout"><span>What you walk away with</span>Coaches who can run a session on their own, and modules that enhance your high-performance course.</div>
+      </div>
+
+      <div class="pack">
+        <div class="pk">Phase three</div>
+        <h3>Scale</h3>
+        <div class="pmeta top"><b>Network wide</b><span>Self-paced, plus cohorts</span></div>
+        <div class="pw">Following phase two</div>
+        <div class="ptiles">
+          <span>Train the trainer</span><span>Peer Support Certification</span>
+          <span>Mentorship cohorts</span><span>Coach journal</span>
+        </div>
+        <div class="pout"><span>What you walk away with</span>Your ambassadors running it for coaches across Tennis Australia.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" aria-label="The ask">
+  <div class="wrap">
+    <div class="kicker r" style="--i:0">The ask</div>
+    <h2 class="r" style="--i:1">What we would need <em>from you.</em></h2>
+    <div class="cols2" style="margin-top:clamp(20px,3.2vh,38px)">
+      <div>
+        <div class="chk open ask r" style="--i:2"><i></i><span><b>A cohort of 10&#8209;15</b>: 6 executive ambassadors, 4 coaches, all opt&#8209;in</span></div>
+        <div class="chk open ask r" style="--i:3"><i></i><span><b>Two dates</b>: cohort confirmed mid&#8209;October 2026, kickoff in January 2027</span></div>
+        <div class="chk open ask r" style="--i:4"><i></i><span><b>How your course runs today</b>: so we supplement, not duplicate</span></div>
+      </div>
+      <div>
+        <div class="chk open ask r" style="--i:3"><i></i><span><b>What good looks like</b>: your goals, in your words</span></div>
+        <div class="chk open ask r" style="--i:4"><i></i><span><b>Anything to tread carefully around</b>: tell us early</span></div>
+        <div class="chk open ask r" style="--i:5"><i></i><span><b>Alignment on strategy and timeline</b>: 1 working session gets us there</span></div>
+      </div>
+    </div>
+    <div class="beyond r" style="--i:6">
+      <p><b>info@wisefriend.org</b> &nbsp;&middot;&nbsp; wisefriend.org</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="bar" id="bar"></div>
+<div class="meta">
+  <span>Wise Friend &nbsp;·&nbsp; Tennis Australia &nbsp;·&nbsp; Proposal draft</span>
+  <span><b id="cur">1</b> / <b id="tot">18</b></span>
+</div>
+<div class="hint" id="hint">Click or press &rarr;</div>
+
+<script>
+(function(){
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var cur = document.getElementById('cur'), bar = document.getElementById('bar');
+  var hint = document.getElementById('hint');
+  var i = 0, wheelLock = false;
+
+  document.getElementById('tot').textContent = slides.length;
+
+  function go(n){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === i) return;
+    slides[i].classList.remove('on');
+    i = n;
+    slides[i].classList.add('on');
+    slides[i].scrollTop = 0;
+    cur.textContent = i + 1;
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    if (i > 0) hint.classList.add('gone');
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'INPUT') return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ') { e.preventDefault(); go(i+1); }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); go(i-1); }
+    else if (k === 'Home') { e.preventDefault(); go(0); }
+    else if (k === 'End') { e.preventDefault(); go(slides.length-1); }
+  });
+
+  document.getElementById('deck').addEventListener('click', function(e){
+    if (e.target.closest('button, a, input')) return;
+    if (String(window.getSelection())) return;
+    go(i + (e.clientX < window.innerWidth * 0.22 ? -1 : 1));
+  });
+
+  document.getElementById('deck').addEventListener('wheel', function(e){
+    if (wheelLock) return;
+    var s = slides[i], over = s.scrollHeight - s.clientHeight > 4;
+    if (over) {
+      if (e.deltaY > 0 && s.scrollTop + s.clientHeight < s.scrollHeight - 2) return;
+      if (e.deltaY < 0 && s.scrollTop > 2) return;
+    }
+    if (Math.abs(e.deltaY) < 14) return;
+    wheelLock = true;
+    go(i + (e.deltaY > 0 ? 1 : -1));
+    setTimeout(function(){ wheelLock = false; }, 640);
+  }, {passive:true});
+
+  var tx = 0, ty = 0;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) go(i + (dx < 0 ? 1 : -1));
+  }, {passive:true});
+
+  bar.style.width = (1 / slides.length * 100) + '%';
+  setTimeout(function(){ if (i === 0) hint.classList.add('gone'); }, 6000);
+
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs){ var n = document.createElementNS(NS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+
+  // Ten pillars ring (appendix)
+  (function(){
+    var g = document.getElementById('pillars'); if (!g) return;
+    var cx = 170, cy = 170, R = 118;
+
+    var ring = el('circle', {cx: cx, cy: cy, r: R, fill: 'none',
+      stroke: 'var(--wash)', 'stroke-width': 1.5});
+    g.appendChild(ring);
+
+    var dots = [];
+    for (var n = 0; n < 10; n++){
+      var ang = (-Math.PI / 2) + (n / 10) * Math.PI * 2;
+      var x = cx + Math.cos(ang) * R, y = cy + Math.sin(ang) * R;
+      var d = el('circle', {cx: x.toFixed(1), cy: y.toFixed(1), r: 13,
+        fill: n % 3 === 0 ? 'var(--accent)' : 'var(--faint)'});
+      d.style.transformOrigin = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+      d.style.opacity = 0;
+      d.style.transform = 'scale(.3)';
+      d.style.transition = 'opacity .45s ease ' + (0.4 + n * 0.075).toFixed(2) + 's, transform .45s cubic-bezier(.3,1.4,.5,1) ' + (0.4 + n * 0.075).toFixed(2) + 's';
+      g.appendChild(d); dots.push(d);
+    }
+
+    var core = el('circle', {cx: cx, cy: cy, r: 34, fill: 'var(--wash)'});
+    g.appendChild(core);
+    var t1 = el('text', {x: cx, y: cy - 2, 'text-anchor': 'middle'});
+    t1.setAttribute('class', 'lab'); t1.style.fontSize = '12px';
+    t1.style.fill = 'var(--ink)'; t1.textContent = 'Life';
+    var t2 = el('text', {x: cx, y: cy + 13, 'text-anchor': 'middle'});
+    t2.setAttribute('class', 'lab'); t2.style.fontSize = '12px';
+    t2.style.fill = 'var(--ink)'; t2.textContent = 'Plan';
+    g.appendChild(t1); g.appendChild(t2);
+
+    function show(){
+      dots.forEach(function(d){ requestAnimationFrame(function(){ d.style.opacity = 1; d.style.transform = 'scale(1)'; }); });
+    }
+    var host = g.closest('.slide');
+    new MutationObserver(function(){ if (host.classList.contains('on')) show(); })
+      .observe(host, {attributes:true, attributeFilter:['class']});
+    if (host.classList.contains('on')) show();
+  })();
+
+  // Contour texture
+  [].forEach.call(document.querySelectorAll('[data-topo]'), function(svg){
+    var lines = 9;
+    for (var n = 0; n < lines; n++){
+      var d = '', base = 648 + n * 44, amp = 58 - n * 4.2, ph = n * 0.42;
+      for (var x = -40; x <= 1240; x += 20){
+        var t = x / 1200;
+        var y = base
+              - Math.sin(t * 3.1 + ph) * amp
+              - Math.sin(t * 7.3 + ph * 1.6) * amp * 0.32
+              - Math.sin(t * 1.4 + ph * 0.7) * amp * 0.55;
+        d += (x === -40 ? 'M' : 'L') + x + ' ' + y.toFixed(1);
+      }
+      var pth = el('path', {d: d});
+      pth.style.opacity = 0;
+      pth.style.transition = 'opacity 1.1s ease ' + (0.5 + n * 0.09).toFixed(2) + 's';
+      svg.appendChild(pth);
+    }
+    function show(){
+      [].forEach.call(svg.children, function(pth){
+        requestAnimationFrame(function(){ pth.style.opacity = ''; });
+      });
+    }
+    var host = svg.closest('.slide');
+    new MutationObserver(function(){ if (host.classList.contains('on')) show(); })
+      .observe(host, {attributes:true, attributeFilter:['class']});
+    if (host.classList.contains('on')) show();
+  });
+
+  var h = parseInt((location.hash || '').slice(1), 10);
+  if (h && h >= 1 && h <= slides.length) go(h - 1);
+})();
+</script>
+</body>
+</html>
